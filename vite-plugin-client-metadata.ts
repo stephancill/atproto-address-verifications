@@ -1,4 +1,4 @@
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { loadEnv } from "vite";
 import type { Plugin } from "vite";
@@ -50,6 +50,9 @@ function generateClientMetadata(mode: string = "development") {
 
   // Ensure public directory exists
   try {
+    if (!existsSync(publicDir)) {
+      mkdirSync(publicDir, { recursive: true });
+    }
     writeFileSync(outputPath, JSON.stringify(metadata, null, 2), "utf-8");
     console.log(`✓ Generated client-metadata.json at ${outputPath}`);
   } catch (error) {
