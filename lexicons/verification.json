@@ -1,0 +1,40 @@
+{
+  "lexicon": 1,
+  "id": "org.chainagnostic.verification",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A claim linking an atproto account to an external blockchain address via EIP-712 signature.",
+      "key": "any",
+      "record": {
+        "type": "object",
+        "required": [
+          "address",
+          "signature",
+          "blockHash",
+          "createdAt"
+        ],
+        "properties": {
+          "address": {
+            "type": "bytes",
+            "description": "The ERC-7930 interoperable address binary format.",
+            "maxLength": 128
+          },
+          "signature": {
+            "type": "bytes",
+            "description": "The EIP-712 signature of the verification claim."
+          },
+          "blockHash": {
+            "type": "bytes",
+            "description": "The block hash used as part of the signed claim.",
+            "maxLength": 32
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  }
+}
