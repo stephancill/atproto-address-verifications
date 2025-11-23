@@ -1,6 +1,7 @@
 import {
   type TypedDataDomain,
   type Address,
+  type Chain,
   toBytes,
   concat,
   toHex,
@@ -9,7 +10,6 @@ import {
   createPublicClient,
   http,
 } from "viem";
-import * as chains from "viem/chains";
 
 export const EIP_712_ATPROTO_DOMAIN = {
   name: "Atproto Verify Ethereum Address",
@@ -127,8 +127,13 @@ export async function verifyVerificationClaim(
       interoperableAddrBytes
     );
 
+    // Dynamically import chains to avoid large bundle size
+    const chains = await import("viem/chains");
+
     // Find the chain definition
-    const chain = Object.values(chains).find((c) => c.id === chainId);
+    const chain = (Object.values(chains) as unknown as Chain[]).find(
+      (c) => c.id === chainId
+    );
 
     if (!chain) {
       console.error(`Chain ID ${chainId} not supported or found`);
