@@ -13,6 +13,7 @@ import {
   EIP_712_ATPROTO_DOMAIN,
   VERIFICATION_TYPES,
   encodeInteroperableAddress,
+  verifyVerificationClaim,
 } from "./verification";
 import { VerificationList } from "./VerificationList";
 
@@ -84,7 +85,18 @@ function App() {
       });
 
       setSignature(sig);
-      console.log("Signature:", sig);
+
+      // Verify the signature before submitting
+      const isValid = await verifyVerificationClaim(
+        session.sub,
+        interoperableAddr,
+        blockHashHex,
+        sig
+      );
+
+      if (!isValid) {
+        throw new Error("Signature verification failed");
+      }
 
       // Create Agent with the session
       const agent = new Agent(session);
