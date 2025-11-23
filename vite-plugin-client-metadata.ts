@@ -36,7 +36,7 @@ function generateClientMetadata(mode: string = "development") {
     ...(logoUri && { logo_uri: logoUri }),
     ...(tosUri && { tos_uri: tosUri }),
     ...(policyUri && { policy_uri: policyUri }),
-    redirect_uris: [`${baseUrl}/callback`],
+    redirect_uris: [`${baseUrl}/`],
     scope: "atproto transition:generic",
     grant_types: ["authorization_code", "refresh_token"],
     response_types: ["code"],
